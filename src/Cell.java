@@ -9,6 +9,7 @@ public class Cell implements Comparable {
     private int col;
     private Comparator comparator;
     private int discoveryTime;
+    private Direction directionFromFather;
 
     public Cell(int row, int col, char type) {
         switch (type) {
@@ -75,6 +76,14 @@ public class Cell implements Comparable {
 
     public void setDiscoveryTime(int discoveryTime) {
         this.discoveryTime = discoveryTime;
+    }
+
+    public Direction getDirectionFromFather() {
+        return directionFromFather;
+    }
+
+    public void setDirectionFromFather(Direction directionFromFather) {
+        this.directionFromFather = directionFromFather;
     }
 
     @Override

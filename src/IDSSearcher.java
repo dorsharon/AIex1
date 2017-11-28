@@ -6,7 +6,7 @@ public class IDSSearcher implements Searcher {
         List<Cell> path = new ArrayList<>();
         int gridTotalSize = grid.getSize() * grid.getSize();
 
-        setComparator(grid);
+        initialize(grid);
 
         // Find the path (reversed)
         for (int depth = 0; depth < gridTotalSize; depth++) {
@@ -34,24 +34,30 @@ public class IDSSearcher implements Searcher {
         return new SearchResult(directions, totalCost);
     }
 
-    public void setComparator(final Grid grid) {
+    @Override
+    public void initialize(Grid grid) {
         for (Cell[] row : grid.getAllCells()) {
             for (Cell cell : row) {
-                cell.setComparator(new Comparator() {
-                    @Override
-                    public int compare(Object o1, Object o2) {
-                        Cell c1 = (Cell) o1, c2 = (Cell) o2;
-                        // First priority - discovery time
-                        if (c1.getDiscoveryTime() == c2.getDiscoveryTime()) {
-                            // Second priority - direction order
-                            return grid.getDirectionBetweenCells(c1, c2).getOrderIndex();
-                        } else {
-                            return c1.getDiscoveryTime() - c2.getDiscoveryTime();
-                        }
-                    }
-                });
+                setComparator(cell);
             }
         }
+    }
+
+    public void setComparator(Cell cell) {
+        cell.setComparator(new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                Cell c1 = (Cell) o1, c2 = (Cell) o2;
+                // First priority - discovery time
+                if (c1.getDiscoveryTime() == c2.getDiscoveryTime()) {
+                    // Second priority - direction order
+                    return Integer.compare(c1.getDirectionFromFather().getOrderIndex(),
+                            c2.getDirectionFromFather().getOrderIndex());
+                } else {
+                    return Integer.compare(c1.getDiscoveryTime(), c2.getDiscoveryTime());
+                }
+            }
+        });
     }
 
     public Boolean DFS(Grid grid, Cell cell, List<Cell> path, int depth) {

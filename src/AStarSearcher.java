@@ -6,9 +6,10 @@ public class AStarSearcher implements Searcher {
 
     @Override
     public SearchResult findPath(Grid grid) {
-        setComparator(grid);
         g = new HashMap<>();
         h = new HashMap<>();
+
+        initialize(grid);
 
         List<Cell> path = aStar(grid);
 
@@ -29,12 +30,39 @@ public class AStarSearcher implements Searcher {
             System.out.println(d);
 
         return new SearchResult(directions, totalCost);
+    }
 
+    public void initialize(Grid grid) {
+        for (Cell[] row : grid.getAllCells()) {
+            for (Cell cell : row) {
+                setComparator(cell);
+                g.put(cell, Double.MAX_VALUE);
+                h.put(cell, Double.MAX_VALUE);
+            }
+        }
     }
 
     @Override
-    public void setComparator(Grid grid) {
-
+    public void setComparator(Cell cell) {
+        cell.setComparator(new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                Cell c1 = (Cell) o1, c2 = (Cell) o2;
+                // First priority - cost
+                if (c1.getCost() == c2.getCost()) {
+                    // Second priority - discovery time
+                    if (c1.getDiscoveryTime() == c2.getDiscoveryTime()) {
+                        // Third priority - direction order
+                        return Integer.compare(c1.getDirectionFromFather().getOrderIndex(),
+                                c2.getDirectionFromFather().getOrderIndex());
+                    } else {
+                        return Integer.compare(c1.getDiscoveryTime(), c2.getDiscoveryTime());
+                    }
+                } else {
+                    return Integer.compare(c1.getCost(), c2.getCost());
+                }
+            }
+        });
     }
 
     public List<Cell> aStar(Grid grid) {
@@ -60,6 +88,8 @@ public class AStarSearcher implements Searcher {
                 // If this neighbour is discovered for the first time
                 if (neighbour.getDiscoveryTime() == -1)
                     neighbour.setDiscoveryTime(currentCell.getDiscoveryTime() + 1);
+
+                neighbour.setDirectionFromFather(grid.getDirectionBetweenCells(currentCell, neighbour));
 
                 priorityQueue.add(neighbour);
 
