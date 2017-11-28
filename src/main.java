@@ -3,7 +3,7 @@ import java.io.*;
 public class main {
     public static void main(String[] args) {
         try {
-            File file = new File("input.txt");
+            File file = new File("input2.txt");
             BufferedReader br = new BufferedReader(new FileReader(file));
             Searcher searcher = null;
 
@@ -11,7 +11,7 @@ public class main {
             String s = br.readLine();
             if (s.equals("IDS")) {
                 searcher = new IDSSearcher();
-            } else if (s.equals("UCS")) {
+            } else if (s.equals("A*")) {
                 searcher = new AStarSearcher();
             }
 

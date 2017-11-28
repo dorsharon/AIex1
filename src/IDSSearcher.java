@@ -41,7 +41,9 @@ public class IDSSearcher implements Searcher {
                     @Override
                     public int compare(Object o1, Object o2) {
                         Cell c1 = (Cell) o1, c2 = (Cell) o2;
+                        // First priority - discovery time
                         if (c1.getDiscoveryTime() == c2.getDiscoveryTime()) {
+                            // Second priority - direction order
                             return grid.getDirectionBetweenCells(c1, c2).getOrderIndex();
                         } else {
                             return c1.getDiscoveryTime() - c2.getDiscoveryTime();
