@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class main {
+public class Main {
     public static void main(String[] args) {
         try {
             File file = new File("input3.txt");

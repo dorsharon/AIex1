@@ -16,6 +16,7 @@ public class AStarSearcher implements Searcher {
         Collections.reverse(path);
         int totalCost = 0;
 
+        // Convert list of cells to a list of directions
         List<Direction> directions = new ArrayList<>();
         if (!path.isEmpty()) {
             for (int i = 0; i < path.size() - 1; i++) {
