@@ -25,8 +25,8 @@ public class SearchResult {
         } else {
             str += directions.get(0).toString();
             for (int i = 1; i < directions.size(); i++)
-                str += directions.get(i).toString() + "-";
-            str += totalCost;
+                str += "-" + directions.get(i).toString();
+            str += " " + totalCost;
         }
         return str;
     }

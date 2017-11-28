@@ -87,8 +87,8 @@ public class Grid {
         Cell dirNeighbour = getNeighbourInDirection(cell, dir);
 
         if (dirNeighbour != null) {
-            // Define the neighbour in the direction and the diagonal ones
             switch (dir) {
+                // Check the straight directions by simply seeing if they're water
                 case RIGHT:
                 case LEFT:
                 case UP:
@@ -97,6 +97,8 @@ public class Grid {
                         neighbours.add(dirNeighbour);
                     }
                     break;
+
+                // Diagonal direction require checking the appropriate direct directions for water
                 case RIGHTUP:
                     if (getNeighbourInDirection(cell, Direction.RIGHT).getCellType() != CellType.WATER &&
                             getNeighbourInDirection(cell, Direction.UP).getCellType() != CellType.WATER) {
