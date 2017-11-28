@@ -15,7 +15,7 @@ public class Cell implements Comparable {
         switch (type) {
             case 'S':
                 cellType = CellType.START;
-                cost = 0;
+                cost = Integer.MAX_VALUE;
                 break;
             case 'G':
                 cellType = CellType.FINISH;

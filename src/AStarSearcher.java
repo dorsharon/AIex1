@@ -13,8 +13,6 @@ public class AStarSearcher implements Searcher {
 
         List<Cell> path = aStar(grid);
 
-        // Add the starting point to the path
-        path.add(grid.getCell(0, 0));
         Collections.reverse(path);
         int totalCost = 0;
 
@@ -48,8 +46,8 @@ public class AStarSearcher implements Searcher {
             @Override
             public int compare(Object o1, Object o2) {
                 Cell c1 = (Cell) o1, c2 = (Cell) o2;
-                // First priority - cost
-                if (c1.getCost() == c2.getCost()) {
+                // First priority - f(x) = g(x)+h(x)
+                if (f(c1) == f(c2)) {
                     // Second priority - discovery time
                     if (c1.getDiscoveryTime() == c2.getDiscoveryTime()) {
                         // Third priority - direction order
@@ -59,7 +57,7 @@ public class AStarSearcher implements Searcher {
                         return Integer.compare(c1.getDiscoveryTime(), c2.getDiscoveryTime());
                     }
                 } else {
-                    return Integer.compare(c1.getCost(), c2.getCost());
+                    return Double.compare(f(c1), f(c2));
                 }
             }
         });
@@ -67,20 +65,24 @@ public class AStarSearcher implements Searcher {
 
     public List<Cell> aStar(Grid grid) {
         PriorityQueue<Cell> priorityQueue = new PriorityQueue<>();
-        List<Cell> path = new ArrayList<>();
 
+        // This map will always save the father of each cell's best path to it
+        Map<Cell, Cell> prevInBestPath = new HashMap<>();
+
+        // Initialize the starting cell
         Cell start = grid.getCell(0, 0);
         start.setDiscoveryTime(0);
 
         priorityQueue.add(start);
         g.put(start, (double) 0);
         h.put(start, calcHeuristic(grid, start));
+        prevInBestPath.put(start, null);
 
         while (!priorityQueue.isEmpty()) {
             Cell currentCell = priorityQueue.poll();
 
             if (currentCell.getCellType() == CellType.FINISH) {
-                return path;
+                return getBestPath(prevInBestPath, currentCell);
             }
 
             List<Cell> neighbours = grid.getNeighbours(currentCell);
@@ -97,12 +99,25 @@ public class AStarSearcher implements Searcher {
                 if (tentativeG < g.get(neighbour)) {
                     g.put(neighbour, tentativeG);
                     h.put(neighbour, calcHeuristic(grid, neighbour));
-
+                    prevInBestPath.put(neighbour, currentCell);
                 }
             }
         }
 
         return null;
+    }
+
+    public List<Cell> getBestPath(Map<Cell, Cell> prevInBestPath, Cell finish) {
+        List<Cell> path = new ArrayList<>();
+        path.add(finish);
+
+        Cell current = finish;
+        while (prevInBestPath.get(current) != null) {
+            path.add(prevInBestPath.get(current));
+            current = prevInBestPath.get(current);
+        }
+
+        return path;
     }
 
     public double f(Cell cell) {
