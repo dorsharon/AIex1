@@ -1,22 +1,25 @@
 import java.util.*;
 
 public class IDSSearcher implements Searcher {
+    private List<Cell> openList;
+
     @Override
     public SearchResult findPath(Grid grid) {
         List<Cell> path = new ArrayList<>();
         int gridTotalSize = grid.getSize() * grid.getSize();
 
         initialize(grid);
+        Cell start = grid.generateCell(0, 0);
 
         // Find the path (reversed)
         for (int depth = 0; depth < gridTotalSize; depth++) {
-            if (DFS(grid, grid.getCell(0, 0), path, depth)) {
+            if (DFS(grid, start, path, depth)) {
                 break;
             }
         }
 
         // Add the starting point to the path
-        path.add(grid.getCell(0, 0));
+        path.add(start);
         Collections.reverse(path);
         int totalCost = 0;
 
@@ -29,19 +32,12 @@ public class IDSSearcher implements Searcher {
             }
         }
 
-        for (Direction d : directions)
-            System.out.println(d);
-
         return new SearchResult(directions, totalCost);
     }
 
     @Override
     public void initialize(Grid grid) {
-        for (Cell[] row : grid.getAllCells()) {
-            for (Cell cell : row) {
-                setComparator(cell);
-            }
-        }
+        openList = new ArrayList<>();
     }
 
     public void setComparator(Cell cell) {
@@ -62,14 +58,17 @@ public class IDSSearcher implements Searcher {
     }
 
     public Boolean DFS(Grid grid, Cell cell, List<Cell> path, int depth) {
+        // If you've reached the FINISH cell
         if (cell.getCellType() == CellType.FINISH) {
             return true;
         }
 
+        // If you've reached the final allowed depth
         if (depth <= 0) {
             return false;
         }
 
+        // Recursively go over the neighbours
         List<Cell> neighbours = grid.getNeighbours(cell);
         for (Cell neighbour : neighbours) {
             if (DFS(grid, neighbour, path, depth - 1)) {

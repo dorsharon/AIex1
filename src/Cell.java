@@ -2,11 +2,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Cell implements Comparable {
+public class Cell {
     private CellType cellType;
     private int cost;
-    private int row;
-    private int col;
+    private Coordinates coordinates;
     private Comparator comparator;
     private int discoveryTime;
     private Direction directionFromFather;
@@ -41,8 +40,7 @@ public class Cell implements Comparable {
                 break;
         }
 
-        this.row = row;
-        this.col = col;
+        this.coordinates = new Coordinates(row, col);
         this.discoveryTime = -1;
     }
 
@@ -54,12 +52,16 @@ public class Cell implements Comparable {
         return cost;
     }
 
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
     public int getRow() {
-        return row;
+        return coordinates.getRow();
     }
 
     public int getCol() {
-        return col;
+        return coordinates.getCol();
     }
 
     public Comparator getComparator() {
@@ -84,10 +86,5 @@ public class Cell implements Comparable {
 
     public void setDirectionFromFather(Direction directionFromFather) {
         this.directionFromFather = directionFromFather;
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        return this.comparator.compare(this, o);
     }
 }

@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Grid {
-    private Cell[][] cells;
+    private char[][] cells;
     private int size;
 
     public Grid(int size) {
-        this.cells = new Cell[size][size];
+        this.cells = new char[size][size];
         this.size = size;
     }
 
@@ -14,16 +14,20 @@ public class Grid {
         return size;
     }
 
-    public Cell getCell(int i, int j) {
+    public char getCell(int i, int j) {
         return cells[i][j];
     }
 
-    public Cell[][] getAllCells() {
+    public char[][] getAllCells() {
         return cells;
     }
 
     public void setCell(int i, int j, char type) {
-        cells[i][j] = new Cell(i, j, type);
+        cells[i][j] = type;
+    }
+
+    public Cell generateCell(int i, int j) {
+        return new Cell(i, j, getCell(i, j));
     }
 
     public List<Cell> getNeighbours(Cell cell) {
@@ -47,35 +51,35 @@ public class Grid {
         switch (dir) {
             case RIGHT:
                 if (col < size - 1)
-                    return getCell(row, col + 1);
+                    return generateCell(row, col + 1);
                 return null;
             case RIGHTDOWN:
                 if (col < size - 1 && row < size - 1)
-                    return getCell(row + 1, col + 1);
+                    return generateCell(row + 1, col + 1);
                 return null;
             case DOWN:
                 if (row < size - 1)
-                    return getCell(row + 1, col);
+                    return generateCell(row + 1, col);
                 return null;
             case LEFTDOWN:
                 if (col > 0 && row < size - 1)
-                    return getCell(row + 1, col - 1);
+                    return generateCell(row + 1, col - 1);
                 return null;
             case LEFT:
                 if (col > 0)
-                    return getCell(row, col - 1);
+                    return generateCell(row, col - 1);
                 return null;
             case LEFTUP:
                 if (col > 0 && row > 0)
-                    return getCell(row - 1, col - 1);
+                    return generateCell(row - 1, col - 1);
                 return null;
             case UP:
                 if (row > 0)
-                    return getCell(row - 1, col);
+                    return generateCell(row - 1, col);
                 return null;
             case RIGHTUP:
                 if (row > 0 && col < size - 1)
-                    return getCell(row - 1, col + 1);
+                    return generateCell(row - 1, col + 1);
                 return null;
             default:
                 return null;
@@ -83,7 +87,6 @@ public class Grid {
     }
 
     private void checkNeighboursInDirection(List<Cell> neighbours, Cell cell, Direction dir) {
-        Cell diagonal1 = null, diagonal2 = null;
         Cell dirNeighbour = getNeighbourInDirection(cell, dir);
 
         if (dirNeighbour != null) {
