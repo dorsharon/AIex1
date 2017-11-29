@@ -43,7 +43,7 @@ public class AStarSearcher implements Searcher {
             @Override
             public int compare(Cell c1, Cell c2) {
                 // First priority - f(x) = g(x)+h(x)
-                if (f(c1) == f(c2)) {
+                if (f(c1.getCoordinates()) == f(c2.getCoordinates())) {
                     // Second priority - discovery time
                     if (c1.getDiscoveryTime() == c2.getDiscoveryTime()) {
                         // Third priority - direction order
@@ -53,7 +53,7 @@ public class AStarSearcher implements Searcher {
                         return Integer.compare(c1.getDiscoveryTime(), c2.getDiscoveryTime());
                     }
                 } else {
-                    return Double.compare(f(c1), f(c2));
+                    return Double.compare(f(c1.getCoordinates()), f(c2.getCoordinates()));
                 }
             }
         };
@@ -71,7 +71,7 @@ public class AStarSearcher implements Searcher {
 
         priorityQueue.add(start);
         g.put(start.getCoordinates(), (double) 0);
-        h.put(start.getCoordinates(), calcHeuristic(grid, start));
+        h.put(start.getCoordinates(), calcHeuristic(grid, start.getCoordinates()));
         prevInBestPath.put(start, null);
 
         while (!priorityQueue.isEmpty()) {
@@ -94,10 +94,10 @@ public class AStarSearcher implements Searcher {
                     priorityQueue.add(neighbour);
 
                     // See if you've found a better path to the current neighbour
-                    double tentativeG = g.get(currentCell) + neighbour.getCost();
-                    if (tentativeG < g.get(neighbour)) {
-                        g.put(neighbour, tentativeG);
-                        h.put(neighbour, calcHeuristic(grid, neighbour));
+                    double tentativeG = g.get(currentCell.getCoordinates()) + neighbour.getCost();
+                    if (tentativeG < g.get(neighbour.getCoordinates())) {
+                        g.put(neighbour.getCoordinates(), tentativeG);
+                        h.put(neighbour.getCoordinates(), calcHeuristic(grid, neighbour.getCoordinates()));
                         prevInBestPath.put(neighbour, currentCell);
                     }
                 }
@@ -120,12 +120,12 @@ public class AStarSearcher implements Searcher {
         return path;
     }
 
-    public double f(Cell cell) {
-        return g.get(cell) + h.get(cell);
+    public double f(Coordinates coordinates) {
+        return g.get(coordinates) + h.get(coordinates);
     }
 
-    public double calcHeuristic(Grid grid, Cell cell) {
-        Cell finish = grid.getCell(grid.getSize() - 1, grid.getSize() - 1);
+    public double calcHeuristic(Grid grid, Coordinates cell) {
+        Coordinates finish = new Coordinates(grid.getSize() - 1, grid.getSize() - 1);
         return Math.hypot(cell.getRow() - finish.getRow(), cell.getCol() - finish.getCol());
     }
 
