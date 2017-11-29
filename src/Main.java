@@ -3,7 +3,7 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) {
         try {
-            File file = new File("input.txt");
+            File file = new File("input2.txt");
             BufferedReader br = new BufferedReader(new FileReader(file));
             Searcher searcher = null;
 
@@ -27,6 +27,7 @@ public class Main {
                 }
             }
 
+            // Find the path from START to FINISH in the grid
             SearchResult searchResult = searcher.findPath(grid);
 
             // Write output file

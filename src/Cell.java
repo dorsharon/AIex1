@@ -78,4 +78,19 @@ public class Cell {
     public void setDirectionFromFather(Direction directionFromFather) {
         this.directionFromFather = directionFromFather;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Cell cell = (Cell) o;
+
+        return getCoordinates() != null ? getCoordinates().equals(cell.getCoordinates()) : cell.getCoordinates() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getCoordinates() != null ? getCoordinates().hashCode() : 0;
+    }
 }

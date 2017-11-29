@@ -60,7 +60,7 @@ public class AStarSearcher implements Searcher {
     }
 
     public List<Cell> aStar(Grid grid) {
-        PriorityQueue<Cell> priorityQueue = new PriorityQueue<>(0, initComparator());
+        PriorityQueue<Cell> priorityQueue = new PriorityQueue<>(1, initComparator());
 
         // This map will always save the father of each cell's best path to it
         Map<Cell, Cell> prevInBestPath = new HashMap<>();
