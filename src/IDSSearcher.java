@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class IDSSearcher implements Searcher {
-    private List<Cell> openList;
+    private List<Coordinates> openList;
 
     @Override
     public SearchResult findPath(Grid grid) {
@@ -10,6 +10,7 @@ public class IDSSearcher implements Searcher {
 
         initialize(grid);
         Cell start = grid.generateCell(0, 0);
+        openList.add(start.getCoordinates());
 
         // Find the path (reversed)
         for (int depth = 0; depth < gridTotalSize; depth++) {
@@ -71,11 +72,17 @@ public class IDSSearcher implements Searcher {
         // Recursively go over the neighbours
         List<Cell> neighbours = grid.getNeighbours(cell);
         for (Cell neighbour : neighbours) {
-            if (DFS(grid, neighbour, path, depth - 1)) {
-                path.add(neighbour);
-                return true;
+            // Duplicate pruning
+            if (!openList.contains(neighbour.getCoordinates())) {
+                openList.add(neighbour.getCoordinates());
+                if (DFS(grid, neighbour, path, depth - 1)) {
+                    path.add(neighbour);
+                    return true;
+                }
             }
         }
+
+        openList.remove(cell.getCoordinates());
 
         return false;
     }
