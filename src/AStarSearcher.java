@@ -53,7 +53,7 @@ public class AStarSearcher implements Searcher {
                         return Integer.compare(c1.getDiscoveryTime(), c2.getDiscoveryTime());
                     }
                 } else {
-                    return Double.compare(f(c1.getCoordinates()), f(c2.getCoordinates()));
+                    return f(c1.getCoordinates()) - f(c2.getCoordinates());
                 }
             }
         };
