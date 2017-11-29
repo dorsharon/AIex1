@@ -3,7 +3,7 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) {
         try {
-            File file = new File("input3.txt");
+            File file = new File("input.txt");
             BufferedReader br = new BufferedReader(new FileReader(file));
             Searcher searcher = null;
 

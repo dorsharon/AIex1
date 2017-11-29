@@ -6,7 +6,6 @@ public class Cell {
     private CellType cellType;
     private int cost;
     private Coordinates coordinates;
-    private Comparator comparator;
     private int discoveryTime;
     private Direction directionFromFather;
 
@@ -62,14 +61,6 @@ public class Cell {
 
     public int getCol() {
         return coordinates.getCol();
-    }
-
-    public Comparator getComparator() {
-        return comparator;
-    }
-
-    public void setComparator(Comparator comparator) {
-        this.comparator = comparator;
     }
 
     public int getDiscoveryTime() {

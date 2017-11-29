@@ -10,10 +10,10 @@ public class IDSSearcher implements Searcher {
 
         initialize(grid);
         Cell start = grid.generateCell(0, 0);
-        openList.add(start.getCoordinates());
 
         // Find the path (reversed)
         for (int depth = 0; depth < gridTotalSize; depth++) {
+            openList.add(start.getCoordinates());
             if (DFS(grid, start, path, depth)) {
                 break;
             }
@@ -42,6 +42,7 @@ public class IDSSearcher implements Searcher {
     }
 
     public void setComparator(Cell cell) {
+        /*
         cell.setComparator(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -55,7 +56,7 @@ public class IDSSearcher implements Searcher {
                     return Integer.compare(c1.getDiscoveryTime(), c2.getDiscoveryTime());
                 }
             }
-        });
+        });*/
     }
 
     public Boolean DFS(Grid grid, Cell cell, List<Cell> path, int depth) {
@@ -66,6 +67,7 @@ public class IDSSearcher implements Searcher {
 
         // If you've reached the final allowed depth
         if (depth <= 0) {
+            openList.remove(cell.getCoordinates());
             return false;
         }
 
@@ -83,7 +85,6 @@ public class IDSSearcher implements Searcher {
         }
 
         openList.remove(cell.getCoordinates());
-
         return false;
     }
 }
