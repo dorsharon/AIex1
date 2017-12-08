@@ -96,7 +96,7 @@ public class Grid {
                 case LEFT:
                 case UP:
                 case DOWN:
-                    if (dirNeighbour.getCellType() != CellType.WATER) {
+                    if (dirNeighbour.cellType != CellType.WATER) {
                         neighbours.add(dirNeighbour);
                     }
                     break;

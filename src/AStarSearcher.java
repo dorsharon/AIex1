@@ -1,6 +1,8 @@
 import java.util.*;
 
 public class AStarSearcher implements Searcher {
+    private int numOfCellsVisited;
+    private int limit;
     private Map<Coordinates, Double> g;
     private Map<Coordinates, Double> h;
 
@@ -26,6 +28,8 @@ public class AStarSearcher implements Searcher {
     }
 
     public void initialize(Grid grid) {
+        numOfCellsVisited = 0;
+        limit = grid.getSize() * grid.getSize();
         g = new HashMap<>();
         h = new HashMap<>();
         int gridSize = grid.getSize();
@@ -73,15 +77,17 @@ public class AStarSearcher implements Searcher {
         h.put(start.coordinates, calcHeuristic(grid, start.coordinates));
         prevInBestPath.put(start, null);
 
-        while (!priorityQueue.isEmpty()) {
+        while (!priorityQueue.isEmpty() && numOfCellsVisited != limit) {
             Cell currentCell = priorityQueue.poll();
 
+            // If you've reached the FINISH cell
             if (currentCell.cellType == CellType.FINISH) {
                 return getBestPath(prevInBestPath, currentCell);
             }
 
             List<Cell> neighbours = grid.getNeighbours(currentCell);
             for (Cell neighbour : neighbours) {
+                numOfCellsVisited++;
                 // Duplicate pruning
                 if (!priorityQueue.contains(neighbour)) {
                     // If this neighbour is discovered for the first time
@@ -103,7 +109,7 @@ public class AStarSearcher implements Searcher {
             }
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
 
