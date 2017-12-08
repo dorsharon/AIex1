@@ -77,7 +77,7 @@ public class AStarSearcher implements Searcher {
         h.put(start.coordinates, calcHeuristic(grid, start.coordinates));
         prevInBestPath.put(start, null);
 
-        while (!priorityQueue.isEmpty() && numOfCellsVisited != limit) {
+        while (!priorityQueue.isEmpty() && numOfCellsVisited < limit) {
             Cell currentCell = priorityQueue.poll();
 
             // If you've reached the FINISH cell
