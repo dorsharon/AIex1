@@ -66,7 +66,7 @@ public class IDSSearcher implements Searcher {
             }
         }
 
-        openList.remove(cell.getCoordinates());
+        openList.remove(cell.coordinates);
         return false;
     }
 }

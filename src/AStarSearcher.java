@@ -18,7 +18,7 @@ public class AStarSearcher implements Searcher {
         if (!path.isEmpty()) {
             for (int i = 0; i < path.size() - 1; i++) {
                 directions.add(grid.getDirectionBetweenCells(path.get(i), path.get(i + 1)));
-                totalCost += path.get(i + 1).getCost();
+                totalCost += path.get(i + 1).cost;
             }
         }
 
@@ -45,11 +45,11 @@ public class AStarSearcher implements Searcher {
                 // First priority - f(x) = g(x)+h(x)
                 if (f(c1) == f(c2)) {
                     // Second priority - discovery time
-                    if (c1.getDiscoveryTime() == c2.getDiscoveryTime()) {
+                    if (c1.discoveryTime == c2.discoveryTime) {
                         // Third priority - direction order
-                        return c1.getDirectionFromFather().getOrderIndex() < c2.getDirectionFromFather().getOrderIndex() ? -1 : 1;
+                        return c1.directionFromFather.getOrderIndex() < c2.directionFromFather.getOrderIndex() ? -1 : 1;
                     } else {
-                        return c1.getDiscoveryTime() < c2.getDiscoveryTime() ? -1 : 1;
+                        return c1.discoveryTime < c2.discoveryTime ? -1 : 1;
                     }
                 } else {
                     return f(c1) < f(c2) ? -1 : 1;
@@ -66,7 +66,7 @@ public class AStarSearcher implements Searcher {
 
         // Initialize the starting cell
         Cell start = grid.generateCell(0, 0);
-        start.setDiscoveryTime(0);
+        start.discoveryTime = 0;
 
         priorityQueue.add(start);
         g.put(start.coordinates, (double) 0);
@@ -88,7 +88,7 @@ public class AStarSearcher implements Searcher {
                     if (neighbour.discoveryTime == -1)
                         neighbour.discoveryTime = currentCell.discoveryTime + 1;
 
-                    neighbour.setDirectionFromFather(grid.getDirectionBetweenCells(currentCell, neighbour));
+                    neighbour.directionFromFather = grid.getDirectionBetweenCells(currentCell, neighbour);
 
                     // See if you've found a better path to the current neighbour
                     double tentativeG = g.get(currentCell.coordinates) + neighbour.cost;
