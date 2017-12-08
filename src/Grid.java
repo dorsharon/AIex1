@@ -103,26 +103,30 @@ public class Grid {
 
                 // Diagonal direction require checking the appropriate direct directions for water
                 case RIGHTUP:
-                    if (getNeighbourInDirection(cell, Direction.RIGHT).getCellType() != CellType.WATER &&
-                            getNeighbourInDirection(cell, Direction.UP).getCellType() != CellType.WATER) {
+                    if (getNeighbourInDirection(cell, Direction.RIGHT).cellType != CellType.WATER &&
+                            getNeighbourInDirection(cell, Direction.UP).cellType != CellType.WATER &&
+                            dirNeighbour.cellType != CellType.WATER) {
                         neighbours.add(dirNeighbour);
                     }
                     break;
                 case RIGHTDOWN:
-                    if (getNeighbourInDirection(cell, Direction.RIGHT).getCellType() != CellType.WATER &&
-                            getNeighbourInDirection(cell, Direction.DOWN).getCellType() != CellType.WATER) {
+                    if (getNeighbourInDirection(cell, Direction.RIGHT).cellType != CellType.WATER &&
+                            getNeighbourInDirection(cell, Direction.DOWN).cellType != CellType.WATER &&
+                            dirNeighbour.cellType != CellType.WATER) {
                         neighbours.add(dirNeighbour);
                     }
                     break;
                 case LEFTUP:
-                    if (getNeighbourInDirection(cell, Direction.LEFT).getCellType() != CellType.WATER &&
-                            getNeighbourInDirection(cell, Direction.UP).getCellType() != CellType.WATER) {
+                    if (getNeighbourInDirection(cell, Direction.LEFT).cellType != CellType.WATER &&
+                            getNeighbourInDirection(cell, Direction.UP).cellType != CellType.WATER &&
+                            dirNeighbour.cellType != CellType.WATER) {
                         neighbours.add(dirNeighbour);
                     }
                     break;
                 case LEFTDOWN:
-                    if (getNeighbourInDirection(cell, Direction.LEFT).getCellType() != CellType.WATER &&
-                            getNeighbourInDirection(cell, Direction.DOWN).getCellType() != CellType.WATER) {
+                    if (getNeighbourInDirection(cell, Direction.LEFT).cellType != CellType.WATER &&
+                            getNeighbourInDirection(cell, Direction.DOWN).cellType != CellType.WATER &&
+                            dirNeighbour.cellType != CellType.WATER) {
                         neighbours.add(dirNeighbour);
                     }
                     break;

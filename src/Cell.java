@@ -3,11 +3,11 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Cell {
-    private CellType cellType;
-    private int cost;
-    private Coordinates coordinates;
-    private int discoveryTime;
-    private Direction directionFromFather;
+    public CellType cellType;
+    public int cost;
+    public Coordinates coordinates;
+    public int discoveryTime;
+    public Direction directionFromFather;
 
     public Cell(int row, int col, char type) {
         switch (type) {
@@ -43,40 +43,12 @@ public class Cell {
         this.discoveryTime = -1;
     }
 
-    public CellType getCellType() {
-        return cellType;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public Coordinates getCoordinates() {
-        return coordinates;
-    }
-
     public int getRow() {
         return coordinates.getRow();
     }
 
     public int getCol() {
         return coordinates.getCol();
-    }
-
-    public int getDiscoveryTime() {
-        return discoveryTime;
-    }
-
-    public void setDiscoveryTime(int discoveryTime) {
-        this.discoveryTime = discoveryTime;
-    }
-
-    public Direction getDirectionFromFather() {
-        return directionFromFather;
-    }
-
-    public void setDirectionFromFather(Direction directionFromFather) {
-        this.directionFromFather = directionFromFather;
     }
 
     @Override
@@ -86,11 +58,11 @@ public class Cell {
 
         Cell cell = (Cell) o;
 
-        return getCoordinates() != null ? getCoordinates().equals(cell.getCoordinates()) : cell.getCoordinates() == null;
+        return coordinates != null ? coordinates.equals(cell.coordinates) : cell.coordinates == null;
     }
 
     @Override
     public int hashCode() {
-        return getCoordinates() != null ? getCoordinates().hashCode() : 0;
+        return coordinates != null ? coordinates.hashCode() : 0;
     }
 }
