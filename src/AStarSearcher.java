@@ -106,10 +106,13 @@ public class AStarSearcher implements Searcher {
         return null;
     }
 
+
     public List<Cell> getBestPath(Map<Cell, Cell> prevInBestPath, Cell finish) {
         List<Cell> path = new ArrayList<>();
         path.add(finish);
 
+        // Keep adding the father in each node's best path to it until you reach
+        // the START cell, who's father is NULL.
         Cell current = finish;
         while (prevInBestPath.get(current) != null) {
             path.add(prevInBestPath.get(current));
@@ -124,6 +127,7 @@ public class AStarSearcher implements Searcher {
     }
 
     public double calcHeuristic(Grid grid, Coordinates cell) {
+        // Calculate chess distance
         Coordinates finish = new Coordinates(grid.getSize() - 1, grid.getSize() - 1);
         return Math.max(cell.getRow() - finish.getRow(), cell.getCol() - finish.getCol());
     }
